@@ -28,4 +28,4 @@ jobs:
         with:
           context: "{{defaultContext}}:demo"
           push: true
-          tags: phoenix1480/demo:latest
+          tags: phoenix1480/demo:${{ github.sha }}
