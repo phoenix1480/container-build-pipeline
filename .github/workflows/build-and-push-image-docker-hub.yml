@@ -1,5 +1,5 @@
+---
 name: Build and Push Container Image
-
 on:
   push:
   pull_request:
@@ -26,5 +26,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
+          context: "{{defaultContext}}:demo"
           push: true
           tags: phoenix1480/demo:latest
