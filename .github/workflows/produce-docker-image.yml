@@ -1,5 +1,5 @@
 ---
-name: Build and Push Container Image
+name: Produce Container Image
 on:
   push:
   pull_request:
@@ -7,7 +7,7 @@ on:
     - main
 
 jobs:
-  docker:
+  build-push-scan:
     runs-on: ubuntu-latest
     steps:
       -
@@ -29,3 +29,18 @@ jobs:
           context: "{{defaultContext}}:demo"
           push: true
           tags: phoenix1480/demo:${{ github.sha }}
+
+      - 
+        name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/phoenix1480/demo:${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - 
+        name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
