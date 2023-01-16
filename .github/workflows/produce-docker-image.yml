@@ -9,6 +9,13 @@ on:
 jobs:
   build-push-scan:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
     steps:
       -
         name: Set up QEMU
@@ -34,9 +41,12 @@ jobs:
         name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
+          scan-type: 'image'
+          ignore-unfixed: true
           image-ref: 'docker.io/phoenix1480/demo:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
+          severity: 'CRITICAL'
 
       - 
         name: Upload Trivy scan results to GitHub Security tab
