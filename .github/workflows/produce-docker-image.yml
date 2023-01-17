@@ -46,7 +46,7 @@ jobs:
           image-ref: 'docker.io/phoenix1480/demo:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL'
+          severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
 
       - 
         name: Upload Trivy scan results to GitHub Security tab
