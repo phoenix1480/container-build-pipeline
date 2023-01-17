@@ -42,7 +42,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'image'
-          ignore-unfixed: true
+          ignore-unfixed: false
           image-ref: 'docker.io/phoenix1480/demo:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
