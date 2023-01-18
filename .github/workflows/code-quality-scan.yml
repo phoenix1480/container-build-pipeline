@@ -1,0 +1,27 @@
+---
+name: Code Quality Scan
+on:
+  push:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  code-quality-check:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Lint Codebase
+      uses: github/super-linter/slim@v4
+      env:
+        DEFAULT_BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VALIDATE_MARKDOWN: true
+        VALIDATE_DOCKERFILE_HADOLINT: true
